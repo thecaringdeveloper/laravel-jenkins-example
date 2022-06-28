@@ -10,6 +10,15 @@ pipeline {
                 '''
             }
         }
+        stage("Verify SSH connection to server") {
+            steps {
+                sshagent(credentials: ['aws-ec2']) {
+                    sh '''
+                        ssh ec2-user@13.41.191.171 whoami
+                    '''
+                }
+            }
+        }        
         stage("Clear all running docker containers") {
             steps {
                 script {
