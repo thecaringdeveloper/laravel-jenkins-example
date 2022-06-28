@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sshagent(credentials: ['aws-ec2']) {
                     sh '''
-                        ssh ec2-user@13.41.191.171 whoami
+                        ssh -o StrictHostKeyChecking=no ec2-user@13.41.191.171 whoami
                     '''
                 }
             }
