@@ -56,11 +56,11 @@ pipeline {
     }
     post {
         success {
-            sh 'cd "/var/lib/jenkins/workspace/Laravel build"'
+            sh 'cd "/var/lib/jenkins/workspace/LaravelBuild"'
             sh 'rm -rf artifact.zip'
             sh 'zip -r artifact.zip . -x "*node_modules**"'
             withCredentials([sshUserPrivateKey(credentialsId: "aws-ec2", keyFileVariable: 'keyfile')]) {
-                sh 'scp -v -o StrictHostKeyChecking=no -i ${keyfile} /var/lib/jenkins/workspace/Laravel build/artifact.zip ec2-user@13.41.191.171:/home/ec2-user/artifact'
+                sh 'scp -v -o StrictHostKeyChecking=no -i ${keyfile} /var/lib/jenkins/workspace/LaravelBuild/artifact.zip ec2-user@13.41.191.171:/home/ec2-user/artifact'
             }
         }
         always {
