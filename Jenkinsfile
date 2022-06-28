@@ -59,8 +59,8 @@ pipeline {
             sh 'cd /var/lib/jenkins/workspace/env/laravel-docker-jenkins-example'
             sh 'rm -rf artifact.zip'
             sh 'zip -r artifact.zip . -x "*node_modules**"'
-            withCredentials([sshUserPrivateKey(credentialsId: "aws-ec2", keyFileVariable: 'ec2')]) {
-                sh 'scp -v -o StrictHostKeyChecking=no -i ${key} /var/lib/jenkins/workspace/env/laravel-docker-jenkins-example/artifact.zip ec2-user@13.41.191.171:/home/ec2-user/artifact'
+            sshagent(credentials: ['aws-ec2']) {
+                sh 'scp -v -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/env/laravel-docker-jenkins-example/artifact.zip ec2-user@13.41.191.171:/home/ec2-user/artifact'
             }
         }
         always {
